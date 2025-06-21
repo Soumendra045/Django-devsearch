@@ -16,34 +16,39 @@ def project(request,pk):
 
 @login_required(login_url='login')
 def create_project(req):
+    profile = req.user.profile
     form=ProjectForm()
 
     if req.method=="POST":
         form = ProjectForm(req.POST,req.FILES)
         if form.is_valid():
-            form.save()
-            return redirect('projects')
+            project = form.save(commit=False)
+            project.owner = profile
+            project.save()
+            return redirect('account')
     context={'form':form}
     return render(req,'projects/project_form.html',context)
 
 @login_required(login_url='login')
 def Updateproject(req,pk):
-    project = Project.objects.get(pk=pk)
+    profile = req.user.profile
+    project = profile.project_set.get(pk=pk)
     form=ProjectForm(instance=project)
 
     if req.method=="POST":
         form = ProjectForm(req.POST,req.FILES,instance=project)
         if form.is_valid():
             form.save()
-            return redirect('projects')
+            return redirect('account')
     context={'form':form}
     return render(req,'projects/project_form.html',context)
 
 @login_required(login_url='login')
 def DeleteProject(req,pk):
-    project = Project.objects.get(pk=pk)
+    profile = req.user.profile
+    project = profile.project_set.get(pk=pk)
     if req.method=="POST":
         project.delete()
         return redirect('/')
     context={'object':project}
-    return render(req,'projects/delete_template.html',context)
+    return render(req,'delete_template.html',context)
