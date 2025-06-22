@@ -5,10 +5,12 @@ from .models import Profile
 from django.contrib import messages
 from .forms import CustomUserCreationForm ,ProfileForm ,SkillForm
 from django.contrib.auth.decorators import login_required
+from .utils import searchProfiles,paginationProfiles
 # Create your views here.
 def profiles(request):
-    profiles = Profile.objects.all()
-    context = {'profiles':profiles}
+    profiles,search_query=searchProfiles(request)
+    custom_range ,profiles =paginationProfiles(request,profiles,3)
+    context = {'profiles':profiles,'search_query':search_query,'custom_range':custom_range}
     return render(request,'users/profiles.html',context)
 
 def userProfile(req,pk):
@@ -28,7 +30,7 @@ def loginUser(request):
         return redirect('profiles')
 
     if request.method=='POST':
-        username = request.POST['username']
+        username = request.POST['username'].lower()
         password = request.POST['password']
 
         try:
@@ -40,7 +42,7 @@ def loginUser(request):
 
         if user is not None:
             login(request,user)
-            return redirect('profiles')
+            return redirect(request.GET['next'] if 'next' in request.GET else 'account')
         else:
             messages.error(request,'Username or Password is incorrect')
 
