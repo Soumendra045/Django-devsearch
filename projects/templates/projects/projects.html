@@ -30,19 +30,27 @@
           <div class="column">
             <div class="card project">
               <a href="{% url 'project' item.id %}" class="project">
-                <img class="project__thumbnail" src="{{ item.featured_image.url}}" alt="project thumbnail" />
+                <img class="project__thumbnail" src="{{ item.imageURL }}" alt="project thumbnail" />
                 <div class="card__body">
                   <h3 class="project__title">{{item.title}}</h3>
-                  <p><a class="project__author" href="{% url 'user-profile' item.owner.id %}">By {{ item.owner.name }}</a></p>
+                      {% if item.owner %}
+                        <p>
+                          <a class="project__author" href="{% url 'user-profile' item.owner.id %}">
+                            By {{ item.owner.name }}
+                          </a>
+                        </p>
+                      {% else %}
+                        <p><span class="project__author">User Deleted</span></p>
+                      {% endif %}
                   <p class="project--rating">
                     <span style="font-weight: bold;">{{item.vote_ratio}}%</span> Positive
                     Feedback ({{item.vote_total}}) Vote{{item.vote_total|pluralize:"s"}}
                   </p>
                   <div class="project__tags">
-                    {% for tag in projectObj.tags.all %}  
-                    <span class="tag tag--pill tag--main">
-                      <small>{{ tag }}</small>
-                    </span>
+                    {% for tag in item.tag.all %}
+                      <span class="tag tag--pill tag--main">
+                        <small>{{ tag }}</small>
+                      </span>
                     {% endfor %}
                   </div>
                 </div>
