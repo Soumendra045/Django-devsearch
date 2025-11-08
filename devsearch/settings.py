@@ -29,7 +29,7 @@ SECRET_KEY = 'django-insecure-rm05md-%8%*)n^*nf28hd4cuj7ik0)i$nd5vj(q-mn@!qg%uny
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['https://django-devsearch-aejp.onrender.com','django-devsearch-aejp.onrender.com']
 
 
 # Application definition
