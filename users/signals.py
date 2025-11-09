@@ -7,6 +7,14 @@ from django.contrib.auth.models import User
 from django.core.mail import send_mail
 from django.conf import settings
 
+from threading import Thread
+
+def send_async_mail(subject, message, recipient_email):
+    Thread(
+        target=send_mail,
+        args=(subject, message, settings.DEFAULT_FROM_EMAIL, [recipient_email]),
+        kwargs={'fail_silently': False}
+    ).start()
 # @receiver(post_save,sender=Profile)  
 def createProfile(sender,instance,created,**kwargs):
     if created:
@@ -21,13 +29,15 @@ def createProfile(sender,instance,created,**kwargs):
         subject = 'Welcome to devsearch'
         message = 'We are glad you are here!'
 
-        send_mail(
-            subject,
-            message,
-            settings.EMAIL_HOST_USER,
-            [profile.email],
-            fail_silently=False,
-        )
+        # send_mail(
+        #     subject,
+        #     message,
+        #     settings.EMAIL_HOST_USER,
+        #     [profile.email],
+        #     fail_silently=False,
+        # )
+        # ←←← CHANGED: now async → no more 500 on register
+        send_async_mail(subject, message, profile.email)
 
 def updateUser(sender,instance,created,**kwargs):
     profile = instance
