@@ -16,6 +16,9 @@ from datetime import timedelta
 from decouple import config
 import dj_database_url
 
+import cloudinary
+import cloudinary_storage
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -45,6 +48,8 @@ INSTALLED_APPS = [
     'users.apps.UsersConfig',
     'rest_framework',
     'corsheaders',
+    'cloudinary',
+    'cloudinary_storage',
     
 ]
 
@@ -200,16 +205,31 @@ EMAIL_HOST_PASSWORD = 'ulibzrmpvfwwtfvj'
 
 STATIC_URL = 'static/'
 
-MEDIA_URL='/images/'
+# MEDIA_URL='/images/'
 
 
 STATICFILES_DIRS=[
     # os.path.join(BASE_DIR,'static')
     BASE_DIR / 'static'
 ]
-MEDIA_ROOT=os.path.join(BASE_DIR,'static/images')
+# MEDIA_ROOT=os.path.join(BASE_DIR,'static/images')
 # MEDIA_ROOT = BASE_DIR / 'static/images'
 STATIC_ROOT = os.path.join(BASE_DIR,'staticfiles')
+
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
+# Global Cloudinary configuration
+cloudinary.config(
+    cloud_name='duyuivb86',
+    api_key='191735691412779',
+    api_secret='cAy1_r6X7UijmKUrBgIZoESI3cE',
+    secure=True
+)
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': 'duyuivb86',
+    'API_KEY': '191735691412779',
+    'API_SECRET': 'cAy1_r6X7UijmKUrBgIZoESI3cE',
+}
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field

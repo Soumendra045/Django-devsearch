@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 import uuid
+from cloudinary.models import CloudinaryField
 # Create your models here.
 # comment
 
@@ -12,7 +13,7 @@ class Profile(models.Model):
     location = models.CharField(max_length=200,blank=True,null=True)
     short_intro = models.CharField(max_length=200,blank=True,null=True)
     bio = models.TextField(blank=True,null=True)
-    profile_image = models.ImageField(null=True,blank=True,upload_to='profiles/',default='profiles/user-default.png')
+    profile_image = CloudinaryField('image',null=True,blank=True,folder='profiles',default='profiles/user-default')
     social_github = models.CharField(max_length=200,blank=True,null=True)
     social_twitter = models.CharField(max_length=200,blank=True,null=True)
     social_linkedin = models.CharField(max_length=200,blank=True,null=True)
