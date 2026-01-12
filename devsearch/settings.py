@@ -1,7 +1,3 @@
-Soumendra@0045
-
-postgresql://postgres:Soumendra@0045@db.retlysnzbhdshdzyrhpo.supabase.co:5432/postgres
-
 
 """
 Django settings for devsearch project.
@@ -37,10 +33,7 @@ SECRET_KEY = 'django-insecure-rm05md-%8%*)n^*nf28hd4cuj7ik0)i$nd5vj(q-mn@!qg%uny
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-
-ALLOWED_HOSTS = [
-    'django-devsearch-aejp.onrender.com'
-]
+ALLOWED_HOSTS = ['https://django-devsearch-aejp.onrender.com','django-devsearch-aejp.onrender.com']
 
 
 # Application definition
@@ -162,15 +155,10 @@ WSGI_APPLICATION = 'devsearch.wsgi.application'
 #         'NAME': BASE_DIR / 'db.sqlite3',
 #     }
 # }
-# DATABASES = {
-#     'default': dj_database_url.parse(config('DATABASE_URL'))
-# }
-
 DATABASES = {
-    'default': dj_database_url.parse(
-        config('DATABASE_URL', default=f'sqlite:///{BASE_DIR / "db.sqlite3"}')
-    )
+    'default': dj_database_url.parse(config('DATABASE_URL'))
 }
+
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
@@ -227,7 +215,7 @@ DEFAULT_FROM_EMAIL =  os.environ.get('DEFAULT_FROM_EMAIL')
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
-STATIC_URL = '/static/'
+STATIC_URL = 'static/'
 
 # MEDIA_URL='/images/'
 
